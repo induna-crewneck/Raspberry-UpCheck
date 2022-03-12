@@ -27,11 +27,16 @@ To find out your user ID you can find @userinfobot on Telegram and text it /star
 
 ### Automate
 To periodically run the script:
-In the console type in 'sudo crontab -e' and add the following line at the end of the file:
-*/10 * * * * python /home/path/to/script.py
+```
+sudo crontab -e
+```
+add the following line at the end of the file:
+```
+*/60 * * * * python /root/Raspberry-UpCheck/UpChecker.py
+```
 Save the file and exit editor. cron should give a message that it has been updated.
 
-This setting executes the script every 10 minutes.
+This setting executes the script every 60 minutes. To change the time interval, replace the 60 in the code with whatever minute-intervall you prefer.
 
 # Code snippets
 ### Ping URL in python and print (show) ping resut
