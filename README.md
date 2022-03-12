@@ -25,6 +25,7 @@ In lines 15 & 16 insert your telegram bot token and your user ID respectively.
 ([How to create a Telegram bot and get that token](https://core.telegram.org/bots))
 To find out your user ID you can find @userinfobot on Telegram and text it /start.
 
+### Automate
 To periodically run the script:
 In the console type in 'sudo crontab -e' and add the following line at the end of the file:
 */10 * * * * python /home/path/to/script.py
