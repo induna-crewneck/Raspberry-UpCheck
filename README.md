@@ -28,6 +28,13 @@ ping, error = ping.communicate()
 print ping
 ```
 ### Send telegram message
+Requires Telegram Bot Token. See [here](https://core.telegram.org/bots) for more info.
+
+Install dependencies:
+```
+pip install requests
+```
+python code:
 ```
 import requests
 # define Variables -------------------------------
@@ -35,7 +42,7 @@ TELEGRAM_BOT = 'telegram_bot_token_token'
 TELEGRAM_ME  = 'personal_telegram_user_id'
 TELEGRAM_MSG = 'messagecontent'
 # URL POST ---------------------------------------
-url = 'https://api.telegram.org/bot{TELEGRAM_BOT}/sendMessage?chat_id={TELEGRAM_ME}&text={TELEGRAM_MSG}'
+url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
 myobj = {'somekey': 'somevalue'}
 x = requests.post(url, data = myobj)
 # Print response text of POST request ------------
@@ -48,3 +55,4 @@ print(x.text)
 https://stackoverflow.com/questions/316866/ping-a-site-in-python
 https://forums.raspberrypi.com/viewtopic.php?t=39344
 https://www.w3schools.com/python/ref_requests_post.asp
+https://stackoverflow.com/questions/28669459/how-to-print-variables-without-spaces-between-values
