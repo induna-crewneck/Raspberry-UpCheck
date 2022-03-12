@@ -49,9 +49,7 @@ country=data['country']
 region=data['region']
 
 # search ping result for offline code ------------------------------
-if OFFLINEIDENT in ping:
-    TELEGRAM_MSG='ping timed out'
-    print 'test'
+if OFFLINEIDENT in ping: X = offline()
 else: TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP)
 
 # send results to telegram -----------------------------------------
