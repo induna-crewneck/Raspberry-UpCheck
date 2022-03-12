@@ -1,10 +1,30 @@
 # Raspberry-UpCheck
 
-Checking if Raspberry Pi is online periodically. Rebooting if not.
+Checking if Raspberry Pi is online periodically. Rebooting if not. The provided script is tailored to my personal preferences. It will log the checks to a textfile and send updates via telegram. You can use it as basis to create your own script. If you want to use my script, follow the Installation steps below.
 
-To check online status Google will be pinged.
+If you want to create your own version of the script, further down on this page are the code snippets used, so you can mix and match.
+
+## Dependencies
+* python
+* git (if you want to pull directly)
 
 ## Installation
+To install the script, make sure 'git' is installed.
+
+### Clone the Git Repo:
+```
+git clone https://github.com/induna-crewneck/Raspberry-UpCheck.git
+```
+This will download the files in this repo to '/root/Raspberry-UpCheck'
+
+### Configure the script with your telegram data
+```
+nano /root/Raspberry-UpCheck/UpChecker.py
+```
+In lines 15 & 16 insert your telegram bot token and your user ID respectively.
+([How to create a Telegram bot and get that token](https://core.telegram.org/bots))
+To find out your user ID you can find @userinfobot on Telegram and text it /start.
+
 To periodically run the script:
 In the console type in 'sudo crontab -e' and add the following line at the end of the file:
 */10 * * * * python /home/path/to/script.py
@@ -12,7 +32,7 @@ Save the file and exit editor. cron should give a message that it has been updat
 
 This setting executes the script every 10 minutes.
 
-## Useful code snippets
+# Code snippets
 ### Ping URL in python and print (show) ping resut
 ```
 import subprocess
