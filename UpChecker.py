@@ -1,3 +1,5 @@
+# Raspberry-UpCheck v1.0
+# github.com/induna-crewneck/Raspberry-UpCheck/
 # python
 
 # imports ----------------------------------------------------------------------------------------
