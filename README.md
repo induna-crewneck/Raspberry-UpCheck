@@ -27,6 +27,52 @@ ping, error = ping.communicate()
 # echo ping results ------------------------------
 print ping
 ```
+Failure result of ping:
+'100% packet loss'
+
+### Search string for substring
+```
+string = "wordstringword"
+substring = "string"
+
+if substring in string:
+    print("Found!")
+else:
+    print("Not found!")
+
+```
+
+### Reboot system
+Syntax can be used to send any command
+```
+import os
+os.system('reboot')
+```
+
+### Get IP and store as variable
+```
+IP = os.popen('curl icanhazip.com').read()
+```
+#### Get detailed IP info
+```
+import re
+import json
+from urllib2 import urlopen
+
+url = 'http://ipinfo.io/json'
+response = urlopen(url)
+data = json.load(response)
+
+IP=data['ip']
+org=data['org']
+city = data['city']
+country=data['country']
+region=data['region']
+
+print 'Your IP detail\n '
+print 'IP : {4} \nRegion : {1} \nCountry : {2} \nCity : {3} \nOrg : {0}'.format(org,region,country,city,IP)
+```
+
 ### Send telegram message
 Requires Telegram Bot Token. See [here](https://core.telegram.org/bots) for more info.
 
@@ -48,7 +94,11 @@ x = requests.post(url, data = myobj)
 # Print response text of POST request ------------
 print(x.text)
 ```
-
+### Get Date and Time
+```
+import datetime
+print datetime.datetime.now()
+```
 
 
 #### Sources:
@@ -56,3 +106,6 @@ https://stackoverflow.com/questions/316866/ping-a-site-in-python
 https://forums.raspberrypi.com/viewtopic.php?t=39344
 https://www.w3schools.com/python/ref_requests_post.asp
 https://stackoverflow.com/questions/28669459/how-to-print-variables-without-spaces-between-values
+https://stackabuse.com/python-check-if-string-contains-substring/
+https://stackoverflow.com/questions/24678308/how-to-find-location-with-ip-address-in-python
+https://thispointer.com/how-to-append-text-or-lines-to-a-file-in-python/
