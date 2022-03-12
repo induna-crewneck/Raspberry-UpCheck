@@ -34,10 +34,8 @@ country=data['country']
 region=data['region']
 
 # search ping result for offline code ------------------------------
-if OFFLINEIDENT in ping:
-TELEGRAM_MSG = 'ping timed out'
-else:
-TELEGRAM_MSG = 'Pi is online  \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP)
+if OFFLINEIDENT in ping: TELEGRAM_MSG='ping timed out'
+else: TELEGRAM_MSG='Pi is online  \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP)
 
 # send results to telegram -----------------------------------------
 url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
