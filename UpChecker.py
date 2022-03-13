@@ -20,23 +20,25 @@ TIMESTAMP = datetime.datetime.now()
 
 # define Error handling function -----------------------------------------------------------------
 def offline():
-    # Attemting to send message (can't hurt to try, right?)
-    TELEGRAM_MSG = 'ping timed out \n' + str(TIMESTAMP)
-    url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
-    y = requests.post(url)
-    # 'y' is now the reponse of sending the telegram message
-    # show detailed reponse:    print y.text
-    # show response code:       print y
-    
     # Logging to OnlineStatusLog.txt
     file_object = open('UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING ERROR    \n' + str(error) + ' \n' + str(ping))
     file_object.close()
+    
     # Rebooting system
     os.system('reboot')
 
 def online():
-    # Sending update message
+    # Get IP address and IP info
+    url = 'http://ipinfo.io/json'
+    response = urlopen(url)
+    data = json.load(response)
+    IP=data['ip']
+    city = data['city']
+    country=data['country']
+    region=data['region']
+    
+    # Sending update message via Telegram
     TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP)
     url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
     y = requests.post(url)
@@ -58,15 +60,6 @@ ping = subprocess.Popen(
 )
 ping, error = ping.communicate()
 # 'ping' is the result of the ping command now
-
-# Get IP address ---------------------------------------------------------------------------------
-url = 'http://ipinfo.io/json'
-response = urlopen(url)
-data = json.load(response)
-IP=data['ip']
-city = data['city']
-country=data['country']
-region=data['region']
 
 # search ping result for online code -------------------------------------------------------------
 if ONLINEIDENT in ping: X = online()
