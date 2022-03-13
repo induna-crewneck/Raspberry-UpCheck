@@ -44,6 +44,17 @@ Save the file and exit editor. cron should give a message that it has been updat
 
 This setting executes the script every 60 minutes. To change the time interval, replace the 60 in the code with whatever minute-intervall you prefer.
 
+### Uninstall
+To delete the script, simply run
+```
+m -r /root/Raspberry-UpCheck/
+```
+and delete the added line in 'crontab -e'
+
+
+
+
+
 # Code snippets
 ### Ping URL in python and print (show) ping resut
 ```
