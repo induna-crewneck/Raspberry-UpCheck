@@ -1,4 +1,4 @@
-# Raspberry-UpCheck v1.0
+# Raspberry-UpCheck v2.0
 # github.com/induna-crewneck/Raspberry-UpCheck/
 # python
 
@@ -21,7 +21,7 @@ TIMESTAMP = datetime.datetime.now()
 # define Error handling function -----------------------------------------------------------------
 def offline():
     # Logging to OnlineStatusLog.txt
-    file_object = open('UpCheckerLog.txt', 'a')
+    file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING ERROR    \n' + str(error) + ' \n' + str(ping))
     file_object.close()
     
@@ -47,7 +47,7 @@ def online():
     # show response code:       print y
     
     # Logging to OnlineStatusLog.txt
-    file_object = open('UpCheckerLog.txt', 'a')
+    file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP))
     file_object.close()
 
