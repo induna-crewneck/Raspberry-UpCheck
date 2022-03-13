@@ -4,6 +4,8 @@ Checking if Raspberry Pi is online periodically. Rebooting if not. The provided 
 
 If you want to create your own version of the script, further down on this page are the code snippets used, so you can mix and match.
 
+This guide and the code used assumes you're doing this as root user. Mileage may vary using another user, code may need to be changed and sudo may have to be used.
+
 ## Dependencies
 * python
 * git (if you want to pull directly)
@@ -11,13 +13,31 @@ If you want to create your own version of the script, further down on this page 
 ## Installation
 To install the script, make sure 'git' is installed.
 
-### Clone the Git Repo:
+### Full code stack:
+This will remove previous installations, install the code, set up the Telegram notifier and schedule the script to run every 3h.
+Just enter your telegram bot token and user id where indicated (remove the {}) and you will be set.
+Optionally you can also adjust the crontab code (line before 'fi') to adjust the intervall in which the code should run. Just make sure you escape any asterisks with \.
+```
+rm -r /root/Raspberry-UpCheck/
+git clone https://github.com/induna-crewneck/Raspberry-UpCheck.git
+chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
+perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g’ /root/Raspberry-UpCheck/UpChecker.py
+perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
+if grep -q UpChecker.py "/var/spool/cron/crontabs/root"; then
+	echo UpChecker is already scheduled
+	else echo 0 \*/3 \* \* \* python /root/Raspberry-UpCheck/UpChecker.py >> /var/spool/cron/crontabs/root
+fi
+```
+
+### Step by Step
+
+#### 1. Clone the Git Repo:
 ```
 git clone https://github.com/induna-crewneck/Raspberry-UpCheck.git
 ```
 This will download the files in this repo to '/root/Raspberry-UpCheck'
 
-### Configure the script with your telegram data
+#### 2. Configure the script with your telegram data
 ```
 nano /root/Raspberry-UpCheck/UpChecker.py
 ```
@@ -25,29 +45,33 @@ In lines 15 & 16 insert your telegram bot token and your user ID respectively.
 ([How to create a Telegram bot and get that token](https://core.telegram.org/bots))
 To find out your user ID you can find @userinfobot on Telegram and text it /start.
 
-### Make log file writeable
+#### 3. Make log file writeable
 ```
 chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
 ```
 
-### Run
+#### 4. (Optional) Run
 To manually run the script (really only useful for or debugging):
 ```
 python /root/Raspberry-UpCheck/UpChecker.py
 ```
 
-### Automate
+#### 5. Automate
 To periodically run the script:
 ```
-sudo crontab -e
+crontab -e
 ```
 add the following line at the end of the file:
 ```
-*/60 * * * * python /root/Raspberry-UpCheck/UpChecker.py
+0 */3 * * * python /root/Raspberry-UpCheck/UpChecker.py
 ```
 Save the file and exit editor. cron should give a message that it has been updated.
 
-This setting executes the script every 60 minutes. To change the time interval, replace the 60 in the code with whatever minute-intervall you prefer.
+This setting executes the script every 3 hours. To change the time interval, replace the 60 in the code with whatever minute-intervall you prefer.
+
+You can test and generate the crontab intervall code [here](https://crontab.guru/). For example, running every 30 minutes would be '*/30 * * * * '
+
+Cron jobs use the system's timezone and start at 00:00, so every 3h means it will run at 3am, 6am, 9am, 12pm, 3pm, 6pm, 9pm, 12am. The site linked above also shows you the next scheduled run based on your cron code.
 
 ### Uninstall
 To delete the script, simply run
