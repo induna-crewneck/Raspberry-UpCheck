@@ -25,6 +25,11 @@ In lines 15 & 16 insert your telegram bot token and your user ID respectively.
 ([How to create a Telegram bot and get that token](https://core.telegram.org/bots))
 To find out your user ID you can find @userinfobot on Telegram and text it /start.
 
+### Make log file writeable
+```
+chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
+```
+
 ### Run
 To manually run the script (really only useful for or debugging):
 ```
