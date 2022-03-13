@@ -52,7 +52,7 @@ This setting executes the script every 60 minutes. To change the time interval, 
 ### Uninstall
 To delete the script, simply run
 ```
-m -r /root/Raspberry-UpCheck/
+rm -r /root/Raspberry-UpCheck/
 ```
 and delete the added line in 'crontab -e'
 
