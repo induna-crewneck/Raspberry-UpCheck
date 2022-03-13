@@ -15,7 +15,7 @@ import datetime
 TELEGRAM_BOT = 'telegram_bot_token'
 TELEGRAM_ME  = 'target_telegram_user_id'
 TELEGRAM_MSG = 'empty message'
-OFFLINEIDENT = '100% packet loss'
+ONLINEIDENT = '0% packet loss'
 TIMESTAMP = datetime.datetime.now()
 
 # define Error handling function -----------------------------------------------------------------
@@ -68,9 +68,9 @@ city = data['city']
 country=data['country']
 region=data['region']
 
-# search ping result for offline code ------------------------------------------------------------
-if OFFLINEIDENT in ping: X = offline()
-else: X = online()
+# search ping result for online code -------------------------------------------------------------
+if ONLINEIDENT in ping: X = online()
+else: X = offline()
 
 
 
