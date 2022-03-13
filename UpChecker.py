@@ -48,7 +48,7 @@ def online():
     
     # Logging to OnlineStatusLog.txt
     file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
-    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3}    ({2}, {0}, {1})'.format(region,country,city,IP))
+    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP))
     file_object.close()
 
 # ping host url ----------------------------------------------------------------------------------
