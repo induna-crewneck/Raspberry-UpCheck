@@ -39,7 +39,7 @@ def online():
     region=data['region']
     
     # Sending update message via Telegram
-    TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \nRegion : {0} \nCountry : {1} \nCity : {2}'.format(region,country,city,IP)
+    TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3}    ({2}, {0}, {1})'.format(region,country,city,IP)
     url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
     y = requests.post(url)
     # 'y' is now the reponse of sending the telegram message
@@ -48,7 +48,7 @@ def online():
     
     # Logging to OnlineStatusLog.txt
     file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
-    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3}    ({2}, {0}, {1}), '.format(region,country,city,IP))
+    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3}    ({2}, {0}, {1})'.format(region,country,city,IP))
     file_object.close()
 
 # ping host url ----------------------------------------------------------------------------------
