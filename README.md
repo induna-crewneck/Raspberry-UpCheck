@@ -59,8 +59,9 @@ ping, error = ping.communicate()
 # echo ping results ------------------------------
 print ping
 ```
-Failure result of ping:
-'100% packet loss'
+Interpretation of results:
+'0% packet loss'                            in 'ping'   means success       ('error' is empty)
+'Temporary failure in name resolution'      in 'error'  means no connection ('ping' is empty)
 
 ### Search string for substring
 ```
