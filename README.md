@@ -21,7 +21,7 @@ Optionally you can also adjust the crontab code (line before 'fi') to adjust the
 rm -r /root/Raspberry-UpCheck/
 git clone https://github.com/induna-crewneck/Raspberry-UpCheck.git
 chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
-perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g’ /root/Raspberry-UpCheck/UpChecker.py
+perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
 perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
 if grep -q UpChecker.py "/var/spool/cron/crontabs/root"; then
 	echo UpChecker is already scheduled
