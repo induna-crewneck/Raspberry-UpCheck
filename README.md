@@ -1,8 +1,8 @@
 # Raspberry-UpCheck
 
-Checking if Raspberry Pi is online periodically. Rebooting if not. The provided script is tailored to my personal preferences. It will log the checks to a textfile and send updates via telegram. You can use it as basis to create your own script. If you want to use my script, follow the Installation steps below.
+Checking if Raspberry Pi is online periodically. Rebooting if not. The provided script is tailored to my personal preferences. It will log the checks to a textfile and send updates via telegram and also notify via telegram on reboot. You can use it as basis to create your own script. If you want to use my script, follow the Installation steps below.
 
-If you want to create your own version of the script, further down on this page are the code snippets used, so you can mix and match.
+If you want to create your own version of the script, you can consult the CodeSnippets file for code I used, so you can mix and match.
 
 This guide and the code used assumes you're doing this as root user. Mileage may vary using another user, code may need to be changed and sudo may have to be used.
 
@@ -23,9 +23,12 @@ git clone https://github.com/induna-crewneck/Raspberry-UpCheck.git
 chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
 perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
 perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
+perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g' /root/Raspberry-UpCheck/BootNotifier.py
+perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/BootNotifier.py
 if grep -q UpChecker.py "/var/spool/cron/crontabs/root"; then
 	echo UpChecker is already scheduled
 	else echo 0 \*/3 \* \* \* python /root/Raspberry-UpCheck/UpChecker.py >> /var/spool/cron/crontabs/root
+	     echo @reboot /root/Raspberry-UpCheck/BootNotifier.py >> /var/spool/cron/crontabs/root
 fi
 ```
 
@@ -45,6 +48,11 @@ In lines 15 & 16 insert your telegram bot token and your user ID respectively.
 ([How to create a Telegram bot and get that token](https://core.telegram.org/bots))
 To find out your user ID you can find @userinfobot on Telegram and text it /start.
 
+Do the same for BootNotifier.py
+```
+nano /root/Raspberry-UpCheck/BootNotifier.py
+```
+
 #### 3. Make log file writeable
 ```
 chmod 777 /root/Raspberry-UpCheck/UpCheckerLog.txt
@@ -61,9 +69,10 @@ To periodically run the script:
 ```
 crontab -e
 ```
-add the following line at the end of the file:
+add the following lines at the end of the file:
 ```
 0 */3 * * * sudo python /root/Raspberry-UpCheck/UpChecker.py
+@reboot python /root/Raspberry-UpCheck/BootNotifier.py
 ```
 (I think 'sudo' is needed here. I had it set up without it previously and it didn't reboot. You can cut the internet connection and see if it rebooted with 'uptime' command.
 
@@ -80,100 +89,7 @@ To delete the script, simply run
 ```
 rm -r /root/Raspberry-UpCheck/
 ```
-and delete the added line in 'crontab -e'
-
-
-
-
-
-# Code snippets
-### Ping URL in python and print (show) ping resut
-```
-import subprocess
-# ping host url ----------------------------------
-host = "www.google.com"
-ping = subprocess.Popen(
-    ["ping", "-c", "4", host],
-    stdout = subprocess.PIPE,
-    stderr = subprocess.PIPE
-)
-ping, error = ping.communicate()
-# echo ping results ------------------------------
-print ping
-```
-Interpretation of results:
-'0% packet loss'                            in 'ping'   means success       ('error' is empty)
-'Temporary failure in name resolution'      in 'error'  means no connection ('ping' is empty)
-
-### Search string for substring
-```
-string = "wordstringword"
-substring = "string"
-
-if substring in string:
-    print("Found!")
-else:
-    print("Not found!")
-
-```
-
-### Reboot system
-Syntax can be used to send any command
-```
-import os
-os.system('reboot')
-```
-
-### Get IP and store as variable
-```
-IP = os.popen('curl icanhazip.com').read()
-```
-#### Get detailed IP info
-```
-import re
-import json
-from urllib2 import urlopen
-
-url = 'http://ipinfo.io/json'
-response = urlopen(url)
-data = json.load(response)
-
-IP=data['ip']
-org=data['org']
-city = data['city']
-country=data['country']
-region=data['region']
-
-print 'Your IP detail\n '
-print 'IP : {4} \nRegion : {1} \nCountry : {2} \nCity : {3} \nOrg : {0}'.format(org,region,country,city,IP)
-```
-
-### Send telegram message
-Requires Telegram Bot Token. See [here](https://core.telegram.org/bots) for more info.
-
-Install dependencies:
-```
-pip install requests
-```
-python code:
-```
-import requests
-# define Variables -------------------------------
-TELEGRAM_BOT = 'telegram_bot_token_token'
-TELEGRAM_ME  = 'personal_telegram_user_id'
-TELEGRAM_MSG = 'messagecontent'
-# URL POST ---------------------------------------
-url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
-myobj = {'somekey': 'somevalue'}
-x = requests.post(url, data = myobj)
-# Print response text of POST request ------------
-print(x.text)
-```
-### Get Date and Time
-```
-import datetime
-print datetime.datetime.now()
-```
+and delete the added lines in 'crontab -e'
 
 
 #### Sources:
