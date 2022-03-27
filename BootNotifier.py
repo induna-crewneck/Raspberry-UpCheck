@@ -3,6 +3,12 @@
 # github.com/induna-crewneck/Raspberry-UpCheck/
 # python
 
+# imports ----------------------------------------------------------------------------------------
+import requests
+import json
+from urllib2 import urlopen
+import datetime
+
 # define Variables -------------------------------------------------------------------------------
 TELEGRAM_BOT = 'telegram_bot_token'
 TELEGRAM_ME  = 'target_telegram_user_id'
@@ -19,7 +25,7 @@ country=data['country']
 region=data['region']
     
 # Sending update message via Telegram
-TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP)
+TELEGRAM_MSG='Pi just rebooted. \n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP)
 url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
 y = requests.post(url)
 # 'y' is now the reponse of sending the telegram message
