@@ -1,4 +1,4 @@
-Code snippets
+#Code snippets
 
 ## These are just code snippets that were used for this project or may otherwise be useful
 
