@@ -1,4 +1,6 @@
-# These are just code snippets that were used for this project or may otherwise be useful
+Code snippets
+
+## These are just code snippets that were used for this project or may otherwise be useful
 
 ### Ping URL in python and print (show) ping resut
 ```
