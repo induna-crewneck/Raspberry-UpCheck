@@ -28,8 +28,12 @@ perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /ro
 if grep -q UpChecker.py "/var/spool/cron/crontabs/root"; then
 	echo UpChecker is already scheduled
 	else echo 0 \*/3 \* \* \* python /root/Raspberry-UpCheck/UpChecker.py >> /var/spool/cron/crontabs/root
-	     echo @reboot python /root/Raspberry-UpCheck/BootNotifier.py >> /var/spool/cron/crontabs/root
 fi
+if grep -q BootNotifier.py "/var/spool/cron/crontabs/root"; then
+	echo BootNotifier is already scheduled
+	else echo @reboot python /root/Raspberry-UpCheck/BootNotifier.py >> /var/spool/cron/crontabs/root
+fi
+
 ```
 
 ### Step by Step
