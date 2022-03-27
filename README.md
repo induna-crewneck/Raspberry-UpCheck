@@ -63,8 +63,10 @@ crontab -e
 ```
 add the following line at the end of the file:
 ```
-0 */3 * * * python /root/Raspberry-UpCheck/UpChecker.py
+0 */3 * * * sudo python /root/Raspberry-UpCheck/UpChecker.py
 ```
+(I think 'sudo' is needed here. I had it set up without it previously and it didn't reboot. You can cut the internet connection and see if it rebooted with 'uptime' command.
+
 Save the file and exit editor. cron should give a message that it has been updated.
 
 This setting executes the script every 3 hours. To change the time interval, replace the 60 in the code with whatever minute-intervall you prefer.
