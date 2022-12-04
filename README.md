@@ -2,6 +2,9 @@
 
 Checking if Raspberry Pi is online periodically. Rebooting if not. The provided script is tailored to my personal preferences. It will log the checks to a textfile and send updates via telegram and also notify via telegram on reboot. You can use it as basis to create your own script. If you want to use my script, follow the Installation steps below.
 
+Version 2 implemented a functionality that aims to reduce VPN downtime. With each check, the device's IP location will be checked against a user-defined "BADCOUNTRY" and the device will be rebooted if the check succeeds. Example: You are located in the US with a VPN set to GB. Your "badcountrycode" ='US', if the device's IP will be located in the US, the device will reboot and you will be notified about both events.
+If you don't wish to use this function, just set badcountrycode to any country that is not your own or the one targeted by your VPN.
+
 If you want to create your own version of the script, you can consult the CodeSnippets file for code I used, so you can mix and match.
 
 This guide and the code used assumes you're doing this as root user. Mileage may vary using another user, code may need to be changed and sudo may have to be used.
@@ -25,6 +28,7 @@ perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g' /root/
 perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/UpChecker.py
 perl -i -pe 's/telegram_bot_token/{ENTER YOUR TELEGRAM BOT TOKEN HERE}/g' /root/Raspberry-UpCheck/BootNotifier.py
 perl -i -pe 's/target_telegram_user_id/{ENTER YOUR TELEGRAM USER ID HERE}/g' /root/Raspberry-UpCheck/BootNotifier.py
+perl -i -pe 's/badcountrycode/{ENTER YOUR BADCOUNTRY}/g' /root/Raspberry-UpCheck/UpChecker.py
 if grep -q UpChecker.py "/var/spool/cron/crontabs/root"; then
 	echo UpChecker is already scheduled
 	else echo 0 \*/3 \* \* \* python /root/Raspberry-UpCheck/UpChecker.py >> /var/spool/cron/crontabs/root
