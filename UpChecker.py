@@ -1,4 +1,4 @@
-# Raspberry-UpCheck v2.0
+# Raspberry-UpCheck v3.0
 # github.com/induna-crewneck/Raspberry-UpCheck/
 # python
 
@@ -17,6 +17,7 @@ TELEGRAM_ME  = 'target_telegram_user_id'
 TELEGRAM_MSG = 'empty message'
 ONLINEIDENT = '0% packet loss'
 TIMESTAMP = datetime.datetime.now()
+BADCOUNTRY = 'US'
 
 # define Error handling function -----------------------------------------------------------------
 def offline():
@@ -24,7 +25,6 @@ def offline():
     file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING ERROR    \n' + str(error) + ' \n' + str(ping))
     file_object.close()
-    
     # Rebooting system
     os.system('reboot')
 
@@ -37,7 +37,18 @@ def online():
     city = data['city']
     country=data['country']
     region=data['region']
-    
+
+    # Checking country
+    if country == BADCOUNTRY:
+      file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
+      file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    COUNTRY MEETS REBOOT CRITERIA    \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP))
+      file_object.close()
+      TELEGRAM_MSG='WARNING!\nILLEGAL COUNTRY DETECTED!\n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP) + ' \nWill attempt reboot now.'
+      url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
+      y = requests.post(url)
+      # Rebooting system
+      os.system('reboot')
+
     # Sending update message via Telegram
     TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP)
     url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
@@ -48,7 +59,7 @@ def online():
     
     # Logging to OnlineStatusLog.txt
     file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
-    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3} ({2}, {0}, {1})'.format(region,country,city,IP))
+    file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP))
     file_object.close()
 
 # ping host url ----------------------------------------------------------------------------------
@@ -64,6 +75,3 @@ ping, error = ping.communicate()
 # search ping result for online code -------------------------------------------------------------
 if ONLINEIDENT in ping: X = online()
 else: X = offline()
-
-
-
