@@ -17,7 +17,7 @@ TELEGRAM_ME  = 'target_telegram_user_id'
 TELEGRAM_MSG = 'empty message'
 ONLINEIDENT = '0% packet loss'
 TIMESTAMP = datetime.datetime.now()
-BADCOUNTRY = 'US'
+BADCOUNTRY = 'badcountrycode'
 
 # define Error handling function -----------------------------------------------------------------
 def offline():
