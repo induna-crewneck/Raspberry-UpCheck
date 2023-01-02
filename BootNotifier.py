@@ -24,7 +24,7 @@ y = requests.post(url)
 # show response code:       print y
     
 # Logging to OnlineStatusLog.txt
-file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
+file_object = open('/root/Raspberry-UpCheck/UpCheckerLog.txt', 'a')
 file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    SYSTEM REBOOTED')
 file_object.close()
 
