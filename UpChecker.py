@@ -22,7 +22,7 @@ BADCOUNTRY = 'badcountrycode'
 # define Error handling function -----------------------------------------------------------------
 def offline():
     # Logging to OnlineStatusLog.txt
-    file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
+    file_object = open('/root/Raspberry-UpCheck/UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING ERROR    \n' + str(error) + ' \n' + str(ping))
     file_object.close()
     # Rebooting system
@@ -40,7 +40,7 @@ def online():
 
     # Checking country
     if country == BADCOUNTRY:
-      file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
+      file_object = open('/root/Raspberry-UpCheck/UpCheckerLog.txt', 'a')
       file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    COUNTRY MEETS REBOOT CRITERIA    \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP))
       file_object.close()
       TELEGRAM_MSG='WARNING!\nILLEGAL COUNTRY DETECTED!\n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP) + ' \nWill attempt reboot now.'
@@ -58,7 +58,7 @@ def online():
     # show response code:       print y
     
     # Logging to OnlineStatusLog.txt
-    file_object = open('Raspberry-UpCheck/UpCheckerLog.txt', 'a')
+    file_object = open('/root/Raspberry-UpCheck/UpCheckerLog.txt', 'a')
     file_object.write(' \n-------------------------------------------------------------------------------------------------------- \n' + str(TIMESTAMP) + '    PING SUCCESSFUL    \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP))
     file_object.close()
 
