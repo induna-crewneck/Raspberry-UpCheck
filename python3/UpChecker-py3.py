@@ -1,5 +1,5 @@
 # Raspberry-UpCheck v3.1
-	# Python3 port of v 3.0
+#	Python3 port of v 3.0
 # github.com/induna-crewneck/Raspberry-UpCheck/
 # python
 
@@ -13,8 +13,8 @@ import urllib.request
 import datetime
 
 # define Variables -------------------------------------------------------------------------------
-TELEGRAM_BOT = '5218238124:AAFWAZHVWLP41pYiaEno7kDYJfM0beIxkv0'
-TELEGRAM_ME  = '827869116'
+TELEGRAM_BOT = 'telegram_bot_token'
+TELEGRAM_ME  = 'target_telegram_user_id'
 TELEGRAM_MSG = 'empty message'
 ONLINEIDENT = '0% packet loss'
 TIMESTAMP = datetime.datetime.now()
