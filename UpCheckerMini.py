@@ -8,8 +8,8 @@
 # python3
 
 # define process here that shouldn't run without VPN:
-dangerousprocess = "your_process_name"
-VPNCOUNTRY = "US"
+dangerousprocess = 'your_process_name'
+VPNCOUNTRY = 'goodcountrycode'
 
 # imports ----------------------------------------------------------------------------------------
 import os
