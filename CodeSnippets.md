@@ -1,4 +1,4 @@
-#Code snippets
+# Code snippets
 
 ## These are just code snippets that were used for this project or may otherwise be useful
 
@@ -88,4 +88,17 @@ print(x.text)
 ```
 import datetime
 print datetime.datetime.now()
+```
+## Unused functions
+### Getting state of process
+Theis was written for UpCheckerMini but not included in the final version to keep the code light. It would have been used to check if it's running before attempting to stop it.
+```
+statuscommand = "systemctl status "+processname
+
+def procstate():
+	PROCESSSTATUS = os.popen(statuscommand).read()
+	if "Active: inactive" in PROCESSSTATUS:
+		return("dead")
+	else:
+		return("alive")
 ```
