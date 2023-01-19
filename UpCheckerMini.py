@@ -8,7 +8,7 @@
 # python3
 
 # define process here that shouldn't run without VPN:
-dangerousprocess = "qbittorrent"
+dangerousprocess = "your_process_name"
 VPNCOUNTRY = "US"
 
 # imports ----------------------------------------------------------------------------------------
