@@ -1,6 +1,10 @@
-# Raspberry-UpCheck v3.0
-# github.com/induna-crewneck/Raspberry-UpCheck/
-# python
+# Raspberry-UpCheck v3.1 (Python3 port of v3.0, which was Python 2.7)
+# 	github.com/induna-crewneck/Raspberry-UpCheck/
+# This is intended to check internet connection and VPN connection integrity,
+#	notify the user (telegram) about the status and take action (reboot) on a fail.
+# This script can be cronjobbed to run every few hours or every day. Suggested entry:
+#	0 */3 * * * sudo python3 /root/Raspberry-UpCheck/UpChecker.py
+# python3
 
 # imports ----------------------------------------------------------------------------------------
 import subprocess
@@ -8,7 +12,7 @@ import requests
 import os
 import re
 import json
-from urllib2 import urlopen
+import urllib.request
 import datetime
 
 # define Variables -------------------------------------------------------------------------------
@@ -17,7 +21,7 @@ TELEGRAM_ME  = 'target_telegram_user_id'
 TELEGRAM_MSG = 'empty message'
 ONLINEIDENT = '0% packet loss'
 TIMESTAMP = datetime.datetime.now()
-BADCOUNTRY = 'badcountrycode'
+BADCOUNTRY = 'DE'
 
 # define Error handling function -----------------------------------------------------------------
 def offline():
@@ -31,7 +35,7 @@ def offline():
 def online():
     # Get IP address and IP info
     url = 'http://ipinfo.io/json'
-    response = urlopen(url)
+    response = urllib.request.urlopen(url)
     data = json.load(response)
     IP=data['ip']
     city = data['city']
@@ -73,5 +77,6 @@ ping, error = ping.communicate()
 # 'ping' is the result of the ping command now
 
 # search ping result for online code -------------------------------------------------------------
-if ONLINEIDENT in ping: X = online()
+
+if ONLINEIDENT in str(ping): X = online()
 else: X = offline()
