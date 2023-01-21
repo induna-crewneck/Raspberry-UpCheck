@@ -113,6 +113,11 @@ python3 /root/Raspberry-UpCheck/UpChecker.py
 python3 /root/Raspberry-UpCheck/UpCheckerMini.py
 python3 /root/Raspberry-UpCheck/BootNotifier.py
 ```
+If you want to see if the scripts were run via crontab, you can use journalctl. Examples:
+```
+journalctl --identifier=CRON --grep="UpChecker" --since "1 hour ago"
+journalctl --identifier=CRON --grep="BootNotifier"
+```
 
 #### 5. Automate
 To periodically run the script:
