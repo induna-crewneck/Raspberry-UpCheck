@@ -1,4 +1,6 @@
-# Raspberry-UpCheckerMini v1.4
+# Raspberry-UpCheckerMini v1.5 (20230429)
+#	New: added action if offline
+#
 # Intended as part of Raspberry-UpCheck
 # 	github.com/induna-crewneck/Raspberry-UpCheck/
 # This script is intended to check VPN connection integrity.
@@ -33,10 +35,14 @@ def killproc():
 
 def netwstate():
 	# Get IP address and IP info
-	url = 'http://ipinfo.io/json'
-	response = urllib.request.urlopen(url)
-	data = json.load(response)
-	country = data['country']
+	try:
+		url = 'http://ipinfo.io/json'
+		response = urllib.request.urlopen(url)
+		data = json.load(response)
+		country = data['country']
+	except:
+		# something went wrong. possibly offline
+		return("OFFLINE")
 	return(country)
 
 # executing stuff --------------------------------------------------------------------------------
@@ -44,6 +50,9 @@ if str(netwstate()) == VPNCOUNTRY:
 	# print(TIME,"Server is online and VPN is active.")
 	# commented out to not blow up LogFile
 	exit()
+elif str(netwstate()) == "OFFLINE" or netwstate() == "OFFLINE":
+	# print(TIME,"Something went wrong when checking connection. Device may be offline.")
+	os.system("python3 /root/Raspberry-UpCheck/UpChecker.py")
 else:
 	print(TIME,"Server is online, VPN is inactive.")
 	killproc()

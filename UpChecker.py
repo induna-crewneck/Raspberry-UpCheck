@@ -1,4 +1,6 @@
-# Raspberry-UpCheck v3.1 (Python3 port of v3.0, which was Python 2.7)
+# Raspberry-UpCheck v3.2 (20230429)
+#	New: a few more failsaves if connections fail
+#
 # 	github.com/induna-crewneck/Raspberry-UpCheck/
 # This is intended to check internet connection and VPN connection integrity,
 #	notify the user (telegram) about the status and take action (reboot) on a fail.
@@ -49,14 +51,20 @@ def online():
       file_object.close()
       TELEGRAM_MSG='WARNING!\nILLEGAL COUNTRY DETECTED!\n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP) + ' \nWill attempt reboot now.'
       url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
-      y = requests.post(url)
+      try:
+      	y = requests.post(url)
+      except:
+      	X = offline()
       # Rebooting system
       os.system('reboot')
 
     # Sending update message via Telegram
     TELEGRAM_MSG='Pi is online (routine check) \n'+ str(TIMESTAMP) + ' \nIP : {3} \n({2}, {0}, {1})'.format(region,country,city,IP)
     url = 'https://api.telegram.org/bot' + str(TELEGRAM_BOT) + '/sendMessage?chat_id=' + str(TELEGRAM_ME) + '&text=' + str(TELEGRAM_MSG)
-    y = requests.post(url)
+    try:
+    	y = requests.post(url)
+    except:
+    	X = offline()
     # 'y' is now the reponse of sending the telegram message
     # show detailed reponse:    print y.text
     # show response code:       print y
@@ -78,5 +86,9 @@ ping, error = ping.communicate()
 
 # search ping result for online code -------------------------------------------------------------
 
-if ONLINEIDENT in str(ping): X = online()
+if ONLINEIDENT in str(ping):
+	try:
+		X = online()
+	except:
+		os.system('reboot')
 else: X = offline()
